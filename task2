@@ -1,0 +1,43 @@
+import pandas as pd
+from textblob import TextBlob
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Load the Dataset
+# Replace this with your actual social media data
+data = {
+    'PostID': [1, 2, 3, 4, 5],
+    'PostContent': [
+        "I love this product! It's amazing.",
+        "This is the worst service I have ever used.",
+        "Not bad, could be better.",
+        "Absolutely fantastic experience!",
+        "Meh, it was okay but not great."
+    ]
+}
+df = pd.DataFrame(data)
+
+# Step 2: Sentiment Analysis Function
+def analyze_sentiment(text):
+    analysis = TextBlob(text)
+    polarity = analysis.sentiment.polarity
+    if polarity > 0:
+        return 'Positive'
+    elif polarity < 0:
+        return 'Negative'
+    else:
+        return 'Neutral'
+
+# Step 3: Apply Sentiment Analysis
+df['Sentiment'] = df['PostContent'].apply(analyze_sentiment)
+
+# Step 4: Visualize Sentiment Distribution
+plt.figure(figsize=(8, 6))
+sns.countplot(x='Sentiment', data=df, palette='cool')
+plt.title('Sentiment Distribution')
+plt.xlabel('Sentiment')
+plt.ylabel('Count')
+plt.show()
+
+# Step 5: Display Results
+print(df)
